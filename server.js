@@ -34,12 +34,16 @@ app.get("/api/studenthome", (req, res) => {
     console.log(req.query);
     const { city } = req.query;
     const { name } = req.query;
-    if(city) {
-        const post = studenthomes.find((post) => post.city == city);
+    if(name) {
+        const post = studenthomes.find((post) => post.name == name);
         
     }
-    if(name){
-        const post2 = post.find((post2) => post2.name == name);
+    if(city){
+        if(post){
+        const post2 = post.find((post2) => post2.city == city);
+        }else{
+            const post2 = studenthomes.find((post2) => post2.city == city);
+        }
     }
     if(post2){
         res.status(200).send(post2);
