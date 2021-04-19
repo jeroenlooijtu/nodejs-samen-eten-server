@@ -30,7 +30,7 @@ app.post("/api/studenthome", (req, res) =>{
     
 })
 
-app.get("/api//studenthome", (req, res) => {
+app.get("/api/studenthome", (req, res) => {
     console.log(req.query);
     const { city } = req.query;
     const { name } = req.query;
