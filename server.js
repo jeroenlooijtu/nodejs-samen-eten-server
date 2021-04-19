@@ -1,16 +1,16 @@
 const http = require('http');
+const express = require("express")
+const app = express();
+const importData = require("./data.json")
 
 // const host = '127.0.0.1';
 const port = process.env.PORT || 3000;
 
 const server = http.createServer((req, res) =>{
-    let result = {
-        'response': 'Miya atsumus greatest gift wasn\'t his talent or his love for volleyball, it was actually his twin brother Atsumu',
-        'status': 'Because i\'m a setter'
-    }
+
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(result));
+    res.end(importData);
 });
 
 server.listen(port, () => {
