@@ -34,6 +34,8 @@ app.get("/api/studenthome", (req, res) => {
     console.log(req.query);
     const { city } = req.query;
     const { name } = req.query;
+    const post;
+    const post2;
     if(name) {
         const post = studenthomes.find((post) => post.name == name);
         
