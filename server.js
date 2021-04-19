@@ -36,7 +36,7 @@ app.get("/api/studenthome", (req, res) => {
     const { name } = req.query;
     console.log(city);
     console.log(name);
-    var post = null;
+    var post = [];
     var post2 = null;
     if(name) {
         post = studenthomes.find((post) => post.name.startsWith(name));
@@ -44,7 +44,7 @@ app.get("/api/studenthome", (req, res) => {
     }
     console.log(post);
     if(city){
-        if(post != null){
+        if(post != []){
         post2 = post.find((post2) => post2.city == city);
         }else{
             post2 = studenthomes.find((post2) => post2.city == city);
