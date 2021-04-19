@@ -36,18 +36,18 @@ app.get("/api/studenthome", (req, res) => {
     const { name } = req.query;
     console.log(city);
     console.log(name);
-    var post = [];
-    var post2 = null;
+    var post;
+    var post2;
     if(name) {
-        post = studenthomes.find((post) => post.name.startsWith(name));
+        post = studenthomes.filter((post) => post.name.startsWith(name));
         
     }
     console.log(post);
     if(city){
         if(post != []){
-        post2 = post.find((post2) => post2.city == city);
+        post2 = post.filter((post2) => post2.city == city);
         }else{
-            post2 = studenthomes.find((post2) => post2.city == city);
+            post2 = studenthomes.filter((post2) => post2.city == city);
         }
     }
     if(post2 != null){
