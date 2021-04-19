@@ -34,12 +34,15 @@ app.get("/api/studenthome", (req, res) => {
     console.log(req.query);
     const { city } = req.query;
     const { name } = req.query;
+    console.log(city);
+    console.log(name);
     var post = null;
     var post2 = null;
     if(name) {
-        post = studenthomes.find((post) => post.name == name);
+        post = studenthomes.find((post) => post.name.startsWith(name));
         
     }
+    console.log(post);
     if(city){
         if(post != null){
         post2 = post.find((post2) => post2.city == city);
