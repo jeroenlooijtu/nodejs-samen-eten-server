@@ -15,6 +15,10 @@ app.get("/players", (req, res) => {
     res.send(importData);
 });
 
+app.get("/api/info", (req, res) => {
+    res.send(importData)
+})
+
 app.listen(port, () => {
     console.log(`Listening on port http://HaHAHAHA:${port}`);
 })
