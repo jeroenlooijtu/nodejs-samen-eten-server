@@ -34,23 +34,23 @@ app.get("/api/studenthome", (req, res) => {
     console.log(req.query);
     const { city } = req.query;
     const { name } = req.query;
-    const post;
-    const post2;
+    const post = null;
+    const post2 = null;
     if(name) {
-        const post = studenthomes.find((post) => post.name == name);
+        post = studenthomes.find((post) => post.name == name);
         
     }
     if(city){
-        if(post){
-        const post2 = post.find((post2) => post2.city == city);
+        if(post != null){
+        post2 = post.find((post2) => post2.city == city);
         }else{
-            const post2 = studenthomes.find((post2) => post2.city == city);
+            post2 = studenthomes.find((post2) => post2.city == city);
         }
     }
-    if(post2){
+    if(post2 != null){
         res.status(200).send(post2);
     }else{
-        if(post){
+        if(post != null){
             res.status(200).send(post);
         } else{
             res.status(404).send('Not Found');
