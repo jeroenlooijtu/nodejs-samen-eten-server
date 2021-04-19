@@ -1,0 +1,16 @@
+{
+  "name": "nodejs-samen-eten-server",
+  "version": "1.0.0",
+  "description": "Nodejs server as practice for programming 4",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "Avans",
+    "nodejs"
+  ],
+  "author": "James Durich",
+  "license": "ISC"
+}
