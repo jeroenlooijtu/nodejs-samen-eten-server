@@ -31,7 +31,7 @@ app.post("/api/studenthome", (req, res) =>{
         studenthomes.push(body);
         res.status(201).send('created home');
     }
-    
+    res.status(201).send('Didnt work lmao');
 })
 
 app.get("/api/studenthome", (req, res) => {
@@ -63,5 +63,19 @@ app.get("/api/studenthome", (req, res) => {
             res.status(404).send('Not Found');
         }
     }
+})
+
+app.put("/api/studenthome/:homeid", (req, res) =>{
+    console.log(req.params)
+    const { homeid } = req.params;
+    const home = studenthomes.find(homeid);
+    const body = req.body;
+    home.name = body.name;
+    home.city = body.city;
+    home.number = body.number;
+    home.phonenumber = body.phonenumber;
+    home.streetname = body.streetname;
+    home.zipcode = body.zipcode;
+
 })
  
