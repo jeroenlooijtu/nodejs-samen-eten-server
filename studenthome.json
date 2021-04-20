@@ -6,7 +6,8 @@
         "number" : "25",
         "zipcode" : "4617AA",
         "city" : "Bergen op Zoom",
-        "phonenumber" : "0164230480"
+        "phonenumber" : "0164230480",
+        "users" : {}
     },
     {   "homeid" : "2",
         "name" : "Karasuno",
@@ -14,7 +15,8 @@
         "number" : "25",
         "zipcode" : "4617AA",
         "city" : "Bergen op Zoom",
-        "phonenumber" : "0164230480"
+        "phonenumber" : "0164230480",
+        "users" : {}
     }
 
 ]

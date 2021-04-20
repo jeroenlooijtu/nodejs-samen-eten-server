@@ -2,10 +2,23 @@ const http = require('http');
 const express = require("express")
 const app = express();
 const importData = require("./data.json")
-const studenthomes = require("./studenthome.json")
+const studenthomes = require("./studenthome.json");
+const { stringify } = require('querystring');
+var maxId = getmaxId();
 
-const host = '127.0.0.1';
-const port = process.env.PORT || 3000;
+function getmaxId(){
+    let max = 0;
+    studenthomes.forEach(home =>{
+        if(parseInt(home.homeid) > max){
+            max = home.homeid;
+        }
+    });
+    max++;
+    return max;
+}
+
+// const host = '127.0.0.1';
+const port = 3000;
 app.use(express.json());
 
 
@@ -21,17 +34,34 @@ app.get("/api/info", (req, res) => {
     res.send(importData)
 })
 
-app.listen((host, port), () => {
-    console.log(`Listening on port http://${host}:${port}`);
+app.listen(port, () => {
+    console.log(`Listening on port http://localhost:${port}`);
 })
 
 app.post("/api/studenthome", (req, res) =>{
-    const body = req.body;
+    console.log(maxId);
+    var body = req.body;
     if(body){
+        var keys = Object.keys(studenthomes[0]);
+        console.log(keys);
+        keys = keys.filter(key => key !== 'homeid');
+        keys = keys.filter(key => key !== 'users')
+        console.log(keys);
+        keys.forEach(key => {
+            console.log(key);
+            if(!(body[key])){
+                res.status(400).send('body wrong format');
+            }
+        });
+        body = addToObject(body, "homeid", maxId.toString(), 0);
+        // body["homeid"] = maxId.toString();
+        body["users"] = {};
+        maxId = maxId + 1;
         studenthomes.push(body);
         res.status(201).send('created home');
+    }else{
+        res.status(201).send('Didnt work lmao');
     }
-    res.status(201).send('Didnt work lmao');
 })
 
 app.get("/api/studenthome", (req, res) => {
@@ -65,17 +95,56 @@ app.get("/api/studenthome", (req, res) => {
     }
 })
 
-app.put("/api/studenthome/:homeid", (req, res) =>{
+app.put("/api/studenthome/:homeId", (req, res) =>{
     console.log(req.params)
-    const { homeid } = req.params;
-    const home = studenthomes.find(studenthomes.homeid = homeid);
+    const { homeId } = req.params;
+    // let home = studenthomes.find((home) => home.homeid == homeid);
+    let home = studenthomes.filter(home => {
+        return home.homeid == homeId;
+    })[0];
+    const index = studenthomes.indexOf(home);
     const body = req.body;
-    home.name = body.name;
-    home.city = body.city;
-    home.number = body.number;
-    home.phonenumber = body.phonenumber;
-    home.streetname = body.streetname;
-    home.zipcode = body.zipcode;
-    res.send('you did it, great job wow')
+    let keys = Object.keys(body)
+    keys.forEach(key =>  {
+        if(home[key]){
+            home[key] = body[key];
+        }
+    });
+    studenthomes[index] = home;
+    // studenthomes.find((home) => home.homeid = homeid) = JSON.stringify(body);
+    res.send(home);
 })
+
+app.put("api/studenthome/:homeid/user", (req, res) =>{
+    const { homeid } = req.params;
+    var user = req.body;
+    let keys = Object.keys(user);
+    if(keys[0] == 'userid'){
+        let home = studenthomes.find((home) => home.homeid = homeid);
+        var userlist = home["users"];
+        userlist.push(user);
+        res.status(200).send('added new user to home');
+    } else{
+        res.status(400).send('wrong body format')
+    }
+
+})
+
+
+var addToObject = function(obj, key, value, index){
+    var temp ={};
+    var i = 0;
+
+    for(var prop in obj){
+            if(i == index && key && value){
+                temp[key] = value;
+            }
+            temp[prop] = obj[prop];
+            i++;
+    }
+    if(!index && key && value){
+        temp[key] = value;
+    }
+    return temp;
+}
  
