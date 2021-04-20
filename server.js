@@ -27,6 +27,9 @@ app.listen(port, () => {
 
 app.post("/api/studenthome", (req, res) =>{
     const body = req.body;
+    if(body){
+        studenthomes.push(body);
+    }
     
 })
 
@@ -44,8 +47,8 @@ app.get("/api/studenthome", (req, res) => {
     }
     console.log(post);
     if(city){
-        if(post != []){
-        post2 = post.filter((post2) => post2.city == city);
+        if(post != null){
+            post2 = post.filter((post2) => post2.city == city);
         }else{
             post2 = studenthomes.filter((post2) => post2.city == city);
         }
@@ -59,6 +62,5 @@ app.get("/api/studenthome", (req, res) => {
             res.status(404).send('Not Found');
         }
     }
-
 })
  
