@@ -115,7 +115,7 @@ app.put("/api/studenthome/:homeId", (req, res) =>{
     res.send(home);
 })
 
-app.put("api/studenthome/:homeid/user", (req, res) =>{
+app.put("/api/studenthome/:homeid/user", (req, res) =>{
     const { homeid } = req.params;
     var user = req.body;
     let keys = Object.keys(user);
