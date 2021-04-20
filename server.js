@@ -76,6 +76,6 @@ app.put("/api/studenthome/:homeid", (req, res) =>{
     home.phonenumber = body.phonenumber;
     home.streetname = body.streetname;
     home.zipcode = body.zipcode;
-
+    res.send('you did it, great job wow')
 })
  
