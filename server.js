@@ -29,6 +29,7 @@ app.post("/api/studenthome", (req, res) =>{
     const body = req.body;
     if(body){
         studenthomes.push(body);
+        res.status(201).send('created home');
     }
     
 })
