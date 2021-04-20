@@ -68,7 +68,7 @@ app.get("/api/studenthome", (req, res) => {
 app.put("/api/studenthome/:homeid", (req, res) =>{
     console.log(req.params)
     const { homeid } = req.params;
-    const home = studenthomes.find(homeid);
+    const home = studenthomes.find(studenthome.homeid = homeid);
     const body = req.body;
     home.name = body.name;
     home.city = body.city;
