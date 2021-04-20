@@ -4,7 +4,7 @@ const app = express();
 const importData = require("./data.json")
 const studenthomes = require("./studenthome.json")
 
-// const host = '127.0.0.1';
+const host = '127.0.0.1';
 const port = process.env.PORT || 3000;
 app.use(express.json());
 
@@ -21,8 +21,8 @@ app.get("/api/info", (req, res) => {
     res.send(importData)
 })
 
-app.listen(port, () => {
-    console.log(`Listening on port http://HaHAHAHA:${port}`);
+app.listen((host, port), () => {
+    console.log(`Listening on port http://${host}:${port}`);
 })
 
 app.post("/api/studenthome", (req, res) =>{
