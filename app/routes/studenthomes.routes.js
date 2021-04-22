@@ -4,7 +4,7 @@ module.exports = function(app){
 
 
 
-    app.post('/api/studenthomes', studenthomes.create);
+    app.post('/api/studenthome', studenthomes.create);
 
     app.get('/api/studenthome', studenthomes.gethomes);
 

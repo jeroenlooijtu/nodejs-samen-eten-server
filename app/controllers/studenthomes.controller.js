@@ -1,6 +1,4 @@
-const http = require('http');
-const express = require("express")
-const app = express();
+
 const importData = require("../../data.json")
 var studenthomes = require("../../studenthome.json");
 var maxId = getmaxId();
@@ -39,7 +37,7 @@ exports.create = function(req, res){
         studenthomes.push(body);
         res.status(201).send(body);
     }else{
-        res.status(201).send('Didnt work lmao');
+        res.status(400).send('Didnt work lmao');
     }
 };
 
@@ -128,6 +126,7 @@ exports.deleteHome = function(req, res){
 exports.addUserToHome = function(req,res){
     const { homeId } = req.params;
     var user = req.body;
+    if(user){
     let keys = Object.keys(user);
     if(keys[0] == 'userid' && keys.length == 1){
         let index = studenthomes.findIndex((home) => home.homeid == homeId);
@@ -147,6 +146,8 @@ exports.addUserToHome = function(req,res){
         }
     } else{
         res.status(400).send('wrong body format')
+    }}else{
+        res.status(400).send('no body found');
     }
 };
 
