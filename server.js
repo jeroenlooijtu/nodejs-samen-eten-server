@@ -55,7 +55,7 @@ app.post("/api/studenthome", (req, res) =>{
         });
         body = addToObject(body, "homeid", maxId.toString(), 0);
         // body["homeid"] = maxId.toString();
-        body["users"] = {};
+        body["users"] = [];
         maxId = maxId + 1;
         studenthomes.push(body);
         res.status(201).send('created home');
@@ -72,6 +72,7 @@ app.get("/api/studenthome", (req, res) => {
     console.log(name);
     var post;
     var post2;
+    res.status(200).send(studenthomes);
     if(name) {
         post = studenthomes.filter((post) => post.name.startsWith(name));
         
@@ -120,10 +121,21 @@ app.put("/api/studenthome/:homeid/user", (req, res) =>{
     var user = req.body;
     let keys = Object.keys(user);
     if(keys[0] == 'userid'){
-        let home = studenthomes.find((home) => home.homeid = homeid);
-        var userlist = home["users"];
-        userlist.push(user);
-        res.status(200).send('added new user to home');
+        let index = studenthomes.findIndex((home) => home.homeid = homeid);
+        let homeusers = studenthomes[index]["users"];
+        let isdup = false;
+        homeusers.forEach(homeuser => {
+            if(homeuser["userid"] == user["userid"]){
+                isdup = true;
+            }
+        });
+        if(isdup == true){
+            res.status(409).send('user already in home')
+        }else{
+            studenthomes[index]["users"].push(user);
+            console.log(studenthomes[index]["users"]);
+            res.status(200).send('added new user to home');
+        }
     } else{
         res.status(400).send('wrong body format')
     }
