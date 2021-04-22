@@ -2,8 +2,7 @@ const http = require('http');
 const express = require("express")
 const app = express();
 const importData = require("./data.json")
-const studenthomes = require("./studenthome.json");
-const { stringify } = require('querystring');
+var studenthomes = require("./studenthome.json");
 var maxId = getmaxId();
 
 function getmaxId(){
@@ -15,10 +14,10 @@ function getmaxId(){
     });
     max++;
     return max;
-}
+};
 
 // const host = '127.0.0.1';
-const port = process.env.PORT || 3000;
+const port = 3000;
 app.use(express.json());
 
 
@@ -32,11 +31,11 @@ app.get("/players", (req, res) => {
 
 app.get("/api/info", (req, res) => {
     res.send(importData)
-})
+});
 
 app.listen(port, () => {
     console.log(`Listening on port http://localhost:${port}`);
-})
+});
 
 app.post("/api/studenthome", (req, res) =>{
     console.log(maxId);
@@ -58,11 +57,11 @@ app.post("/api/studenthome", (req, res) =>{
         body["users"] = [];
         maxId = maxId + 1;
         studenthomes.push(body);
-        res.status(201).send('created home');
+        res.status(201).send(body);
     }else{
         res.status(201).send('Didnt work lmao');
     }
-})
+});
 
 app.get("/api/studenthome", (req, res) => {
     console.log(req.query);
@@ -72,7 +71,7 @@ app.get("/api/studenthome", (req, res) => {
     console.log(name);
     var post;
     var post2;
-    res.status(200).send(studenthomes);
+    if(city || name){
     if(name) {
         post = studenthomes.filter((post) => post.name.startsWith(name));
         
@@ -93,8 +92,10 @@ app.get("/api/studenthome", (req, res) => {
         } else{
             res.status(404).send('Not Found');
         }
+    }} else {
+        res.status(200).send(studenthomes);
     }
-})
+});
 
 app.put("/api/studenthome/:homeId", (req, res) =>{
     console.log(req.params)
@@ -114,14 +115,14 @@ app.put("/api/studenthome/:homeId", (req, res) =>{
     studenthomes[index] = home;
     // studenthomes.find((home) => home.homeid = homeid) = JSON.stringify(body);
     res.send(home);
-})
+});
 
-app.put("/api/studenthome/:homeid/user", (req, res) =>{
-    const { homeid } = req.params;
+app.put("/api/studenthome/:homeId/user", (req, res) =>{
+    const { homeId } = req.params;
     var user = req.body;
     let keys = Object.keys(user);
-    if(keys[0] == 'userid'){
-        let index = studenthomes.findIndex((home) => home.homeid = homeid);
+    if(keys[0] == 'userid' && keys.length == 1){
+        let index = studenthomes.findIndex((home) => home.homeid == homeId);
         let homeusers = studenthomes[index]["users"];
         let isdup = false;
         homeusers.forEach(homeuser => {
@@ -140,7 +141,29 @@ app.put("/api/studenthome/:homeid/user", (req, res) =>{
         res.status(400).send('wrong body format')
     }
 
-})
+});
+
+app.delete("/api/studenthome/:homeId", (req, res) =>{
+    const { homeId} = req.params;
+    let homeToDelete = studenthomes.find((hometofind) => hometofind.homeid == homeId);
+    if(homeToDelete !== null){
+        console.log(homeToDelete.homeid);
+        studenthomes = studenthomes.filter((home) => home.homeid !== homeToDelete.homeid);
+        res.status(200).json(homeToDelete);
+    }else{
+        res.status(404).send('Home does not exist');
+    }
+});
+
+app.get("/api/studenthome/:homeId", (req, res) =>{
+    const { homeId } = req.params;
+    let hometoreturn = studenthomes.find((home) => home.homeid == homeId);
+    if(hometoreturn){
+        res.status(200).json(hometoreturn);
+    } else{
+        res.status(404).send('Home doesn\'t exist')
+    }
+});
 
 
 var addToObject = function(obj, key, value, index){
@@ -158,5 +181,5 @@ var addToObject = function(obj, key, value, index){
         temp[key] = value;
     }
     return temp;
-}
+};
  
