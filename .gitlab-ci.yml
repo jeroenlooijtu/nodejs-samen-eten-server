@@ -23,7 +23,6 @@ testing:
     - npm run test
   only:
     - main
-    
 
 #
 # Deploy to Heroku
