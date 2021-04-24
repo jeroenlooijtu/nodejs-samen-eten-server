@@ -1,4 +1,3 @@
-
 const express = require("express");
 
 const app = express();
@@ -10,5 +9,5 @@ require("./app/routes/studenthomes.routes.js")(app);
 var server = app.listen(port, () => {
   const host = server.address().address;
   const { port } = server.address();
-  console.log("App listening at http://%s:%s", host, port);
+  console.log(`App listening at http://${host}:${port}`);
 });
