@@ -11,7 +11,7 @@ module.exports = (app) => {
 
   app.put("/api/studenthome/:homeId", studenthomes.updateHome);
 
-  app.delete("/api/studenthome/:homeid", studenthomes.deleteHome);
+  app.delete("/api/studenthome/:homeId", studenthomes.deleteHome);
 
   app.put("/api/studenthome/:homeId/user", studenthomes.addUserToHome);
 };

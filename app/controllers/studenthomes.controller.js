@@ -107,10 +107,11 @@ exports.updateHome = function (req, res) {
 // UC-205: deletes a specific studenthome from the array based on the
 exports.deleteHome = function (req, res) {
   const { homeId } = req.params;
+  console.log(homeId);
   const homeToDelete = studenthomes.studenthomes.find(
     (hometofind) => hometofind.homeid == homeId
   );
-  if (homeToDelete === null) {
+  if (!homeToDelete) {
     res.status(404).send("Home does not exist");
     return;
   }
@@ -140,7 +141,7 @@ exports.addUserToHome = function (req, res) {
         res.status(409).send("user already in home");
       } else {
         studenthomes.studenthomes[index].users.push(user);
-        console.log(studenthomes[index].users);
+        console.log(studenthomes.studenthomes[index].users);
         res.status(200).send("added new user to home");
       }
     } else {
