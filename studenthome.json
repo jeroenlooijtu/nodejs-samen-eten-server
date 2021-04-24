@@ -1,23 +1,25 @@
-[
-    {   
-        "homeid" : "1",
-        "name" : "Inarizaki",
-        "streetname" : "Laan van hildernisse zuid",
-        "number" : "25",
-        "zipcode" : "4617AA",
-        "city" : "Bergen op Zoom",
-        "phonenumber" : "0164230480",
-        "users" : [
-        ]
+{
+  "counter": 2,
+  "studenthomes": [
+    {
+      "homeid": 1,
+      "name": "Inarizaki",
+      "streetname": "Laan van hildernisse zuid",
+      "number": "25",
+      "zipcode": "4617AA",
+      "city": "Bergen op Zoom",
+      "phonenumber": "0164230480",
+      "users": []
     },
-    {   "homeid" : "2",
-        "name" : "Karasuno",
-        "streetname" : "Laan van hildernisse zuid",
-        "number" : "25",
-        "zipcode" : "4617AA",
-        "city" : "Bergen op Zoom",
-        "phonenumber" : "0164230480",
-        "users" : []
+    {
+      "homeid": 2,
+      "name": "Karasuno",
+      "streetname": "Laan van hildernisse zuid",
+      "number": "25",
+      "zipcode": "4617AA",
+      "city": "Bergen op Zoom",
+      "phonenumber": "0164230480",
+      "users": []
     }
-
-]
+  ]
+}
