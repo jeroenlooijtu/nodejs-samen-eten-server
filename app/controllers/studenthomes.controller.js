@@ -19,6 +19,12 @@ const getmaxId = () => {
 }
 let maxId = getmaxId();
 
+//Info function to return info about the api
+exports.getInfo = (req, res) => {
+    console.log("got request for info");
+    res.status(200).json(importData);
+};
+
 // UC-201: Adds a new studenthome to the array
 exports.create = function ({ body }, res) {
   console.log(maxId);

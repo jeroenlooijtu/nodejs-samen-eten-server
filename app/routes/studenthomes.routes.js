@@ -14,4 +14,6 @@ module.exports = (app) => {
   app.delete("/api/studenthome/:homeId", studenthomes.deleteHome);
 
   app.put("/api/studenthome/:homeId/user", studenthomes.addUserToHome);
+
+  app.get("/api/info", studenthomes.getInfo);
 };
