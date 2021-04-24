@@ -1,8 +1,8 @@
 [
-    {
-        "studentnaam" : "Jeroen Looij",
-        "studentnummer" : "2168030",
-        "beschrijving" : "Dit is de server app voor programmeren 4",
-        "sonarqube": ""
-    }
+  {
+    "studentnaam": "Jeroen Looij",
+    "studentnummer": "2168030",
+    "beschrijving": "Dit is de server app voor programmeren 4",
+    "sonarqube": ""
+  }
 ]
