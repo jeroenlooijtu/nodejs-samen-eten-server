@@ -3,6 +3,7 @@
 //Add file wrtiting to locally save changes and keep them on server restart
 //Add counter and remove method te get maxId
 
+let logger = require('tracer').console();
 const importData = require("../../data.json");
 let studenthomes = require("../../studenthome.json");
 
@@ -21,23 +22,23 @@ let maxId = getmaxId();
 
 //Info function to return info about the api
 exports.getInfo = (req, res) => {
-    console.log("got request for info");
+    logger.log("got request for info");
     res.status(200).json(importData);
 };
 
 // UC-201: Adds a new studenthome to the array
 exports.create = function ({ body }, res) {
-  console.log(maxId);
+  logger.log(maxId);
   if (!body) {
     res.status(400).send("Didnt work lmao");
     return;
   }
   let keys = Object.keys(studenthomes.studenthomes[0]);
-  console.log(keys);
+  logger.log(keys);
   keys = keys.filter((key) => key !== "homeid" && key !== "users");
-  console.log(keys);
+  logger.log(keys);
   keys.forEach((key) => {
-    console.log(key);
+    logger.log(key);
     if (!body[key]) {
       res.status(400).send("body wrong format");
     }
@@ -52,15 +53,15 @@ exports.create = function ({ body }, res) {
 
 // UC-202: Gets studenthomes, can filter on query parameters like name or city
 exports.gethomes = function ({ query: { city, name } }, res) {
-  console.log(city);
-  console.log(name);
+  logger.log(city);
+  logger.log(name);
   let post;
   let post2;
   if (city || name) {
     if (name) {
       post = studenthomes.studenthomes.filter((post) => post.name.startsWith(name));
     }
-    console.log(post);
+    logger.log(post);
     if (city) {
       if (!post) {
         post2 = post.filter((post2) => post2.city == city);
@@ -83,17 +84,17 @@ exports.gethomes = function ({ query: { city, name } }, res) {
 // UC-203: returns a specific studenthome based on the homeid
 exports.getHomeById = function ({ params: { homeId } }, res) {
   const hometoreturn = studenthomes.studenthomes.find((home) => home.homeid == homeId);
-  if (hometoreturn) {
-    res.status(200).json(hometoreturn);
-  } else {
+  if (!hometoreturn) {
     res.status(404).send("Home doesn't exist");
+    return;
   }
+  res.status(200).json(hometoreturn);
 };
 
 // UC-204: updates a specific home based on homeid, wants a body with the values to be updates, doesnt update any value if the keys don't match
 
 exports.updateHome = function (req, res) {
-  console.log(req.params);
+  logger.log(req.params);
   const { homeId } = req.params;
   // let home = studenthomes.find((home) => home.homeid == homeid);
   const home = studenthomes.studenthomes.filter((home) => home.homeid == homeId)[0];
@@ -113,7 +114,7 @@ exports.updateHome = function (req, res) {
 // UC-205: deletes a specific studenthome from the array based on the
 exports.deleteHome = function (req, res) {
   const { homeId } = req.params;
-  console.log(homeId);
+  logger.log(homeId);
   const homeToDelete = studenthomes.studenthomes.find(
     (hometofind) => hometofind.homeid == homeId
   );
@@ -121,7 +122,7 @@ exports.deleteHome = function (req, res) {
     res.status(404).send("Home does not exist");
     return;
   }
-  console.log(homeToDelete.homeid);
+  logger.log(homeToDelete.homeid);
   studenthomes.studenthomes = studenthomes.studenthomes.filter(
     (home) => home.homeid !== homeToDelete.homeid
   );
@@ -132,7 +133,10 @@ exports.deleteHome = function (req, res) {
 exports.addUserToHome = function (req, res) {
   const { homeId } = req.params;
   const user = req.body;
-  if (user) {
+  if (!user) {
+    res.status(400).send("no body found");
+    return;
+  }
     const keys = Object.keys(user);
     if (keys[0] == "userid" && keys.length == 1) {
       const index = studenthomes.studenthomes.findIndex((home) => home.homeid == homeId);
@@ -147,15 +151,12 @@ exports.addUserToHome = function (req, res) {
         res.status(409).send("user already in home");
       } else {
         studenthomes.studenthomes[index].users.push(user);
-        console.log(studenthomes.studenthomes[index].users);
+        logger.log(studenthomes.studenthomes[index].users);
         res.status(200).send("added new user to home");
       }
     } else {
       res.status(400).send("wrong body format");
     }
-  } else {
-    res.status(400).send("no body found");
-  }
 };
 
 // method to add the homeid of a new studenthome at the beginning of the json object: can be deleted, not necesarry to parse json
